@@ -1,6 +1,6 @@
-package Data1;
+package Data1old;
 
-import Data1.Utilities.*;
+import Data1old.Utilities.*;
 
 /**
  * Created by User on 9/9/2014.
@@ -62,6 +62,46 @@ public class FiniteIntegerSet {
             tree.setLeft(addHelper(data, tree.getLeft()));
             return tree;
         }
+    }
+
+    public FiniteIntegerSet union(FiniteIntegerSet t) {
+        Tree<Integer> copy = tree;
+        return new FiniteIntegerSet(treeUnion(t.getTree(), copy));
+    }
+
+    private Tree<Integer> getTree() {
+        return tree;
+    }
+
+    private Tree<Integer> treeUnion(Tree<Integer> t, Tree<Integer> u) {
+        List<Integer> contents = toList(u);
+        Tree<Integer> newTree = t;
+        while (contents != null) {
+            Integer data = contents.getData();
+            contents = contents.rest();
+            newTree = addHelper(data, newTree);
+        }
+        return newTree;
+    }
+
+    private List<Integer> toList(Tree<Integer> tree) {
+        if (tree == null) return null;
+        else {
+            return append(new List(tree.getData()), append(toList(tree.getLeft()), toList(tree.getRight())));
+        }
+
+    }
+
+    private static List<Integer> append(List<Integer> list1, List<Integer> list2) {
+        if (list2 == null) return list1;
+        else if (list1 == null) return list2;
+        else {
+            return append(list1.cons(list2.getData()),list2.rest());
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(append(null, new List(1)).getData());
     }
 
 }
