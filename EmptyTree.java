@@ -5,8 +5,8 @@ package Data1;
  */
 public class EmptyTree implements FiniteIntegerSet {
 
-    public FiniteIntegerSet empty() {
-        return this;
+    public static FiniteIntegerSet empty() {
+        return new EmptyTree();
     }
 
     public int cardinality() {

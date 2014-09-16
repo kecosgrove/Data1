@@ -5,9 +5,6 @@ package Data1;
  */
 public interface FiniteIntegerSet {
 
-    public FiniteIntegerSet empty();
-    //I have no idea how to make this static. The interface wants a body for static methods but
-    //doesn't let me use constructors. Is there another way to create a function without inputs?
     public int cardinality();
     public boolean isEmptyHuh();
     public boolean member(int data);
