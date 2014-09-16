@@ -22,7 +22,7 @@ public class EmptyTree implements FiniteIntegerSet {
     }
 
     public FiniteIntegerSet add(int data) {
-        return new Tree(data);
+        return new Tree(data, this, this);
     }
 
     public FiniteIntegerSet remove(int data) {
@@ -38,7 +38,7 @@ public class EmptyTree implements FiniteIntegerSet {
     }
 
     public FiniteIntegerSet diff(FiniteIntegerSet set) {
-        return this;
+        return set;
     }
 
     public boolean equal(FiniteIntegerSet set) {

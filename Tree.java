@@ -9,12 +9,6 @@ public class Tree implements FiniteIntegerSet {
     private FiniteIntegerSet right;
     private FiniteIntegerSet left;
 
-    public Tree(int data) {
-        this.data = data;
-        this.right = new EmptyTree();
-        this.left = new EmptyTree();
-    }
-
     public Tree(int data, FiniteIntegerSet right, FiniteIntegerSet left) {
         this.data = data;
         this.right = right;
@@ -34,7 +28,9 @@ public class Tree implements FiniteIntegerSet {
     }
 
     public boolean member(int data) {
-        return ((this.data == data) || right.member(data) || left.member(data));
+        if (this.data == data) return true;
+        else if (this.data > data) return left.member(data);
+        else return right.member(data);
     }
 
     public FiniteIntegerSet add(int data) {
@@ -59,10 +55,8 @@ public class Tree implements FiniteIntegerSet {
     }
 
     public FiniteIntegerSet diff(FiniteIntegerSet set) {
-        if (set.member(data)) return this.remove(data).diff(set);
-        else return new Tree(this.data, this.right.diff(set), this.left.diff(set));
+        return left.diff(right.diff(set.remove(data)));
     }
-    //This Diff method is (this - set), not sure if it should be (set - this) instead
 
     public boolean equal(FiniteIntegerSet set) {
         return (set.diff(this).isEmptyHuh()) && (diff(set).isEmptyHuh());
