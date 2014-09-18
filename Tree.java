@@ -15,6 +15,10 @@ public class Tree implements FiniteIntegerSet {
         this.left = left;
     }
 
+    public static FiniteIntegerSet empty() {
+        return new EmptyTree();
+    }
+
     public int cardinality() {
         return 1 + right.cardinality() + left.cardinality();
     }
