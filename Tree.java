@@ -46,7 +46,7 @@ public class Tree implements FiniteIntegerSet {
     }
 
     public FiniteIntegerSet union(FiniteIntegerSet set) {
-        return set.add(data).union(right).union(left);
+        return right.union(left.union(set.add(data)));
     }
 
     public FiniteIntegerSet inter(FiniteIntegerSet set) {
@@ -63,6 +63,6 @@ public class Tree implements FiniteIntegerSet {
     }
 
     public boolean subset(FiniteIntegerSet set) {
-        return diff(set).isEmptyHuh();
+        return set.diff(this).isEmptyHuh();
     }
 }

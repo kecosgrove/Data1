@@ -58,7 +58,7 @@ public class Testing {
     }
 
     //Adding an element to a set causes that element to be a member of that set.
-    public static void addMemberTest(int repeat) {
+    public static void addTest(int repeat) {
         Random rng = new Random();
         FiniteIntegerSet set = Tree.empty();
         for (int i = 0; i < repeat; i++) {
@@ -72,12 +72,82 @@ public class Testing {
         }
     }
 
+    //The intersection of two sets x and y is a subset of the union of those two sets
+    public static void subsetUnion1(int repeat) {
+        for (int i = 0; i < repeat; i++) {
+        FiniteIntegerSet x = randomBST(10, 10);
+        FiniteIntegerSet y = randomBST(10, 10);
+        if (x.inter(y).subset(x.union(y)))
+            System.out.println("The intersection of random sets x and y is a subset of the union of x and y. PASS");
+        else
+            System.out.println("The intersection of random sets x and y isn't a subset of the union of x and y. FAIL");
+        }
+    }
+
+    ///The difference of two sets x and y is a subset of the union of those two sets
+    public static void subsetUnion2(int repeat) {
+        for (int i = 0; i < repeat; i++) {
+            FiniteIntegerSet x = randomBST(10, 10);
+            FiniteIntegerSet y = randomBST(10, 10);
+            if (y.diff(x).subset(y.union(x)))
+                System.out.println("The difference of random sets x and y is a subset of the union of x and y. PASS");
+            else
+                System.out.println("The difference of random sets x and y isn't a subset of the union of x and y. FAIL");
+        }
+    }
+
+    //Iff two sets are equal, then they are also both subsets of each other.
+    public static void equalityBySubset(int repeat) {
+        for (int i = 0; i < repeat; i++) {
+            FiniteIntegerSet x = randomBST(20, 5);
+            FiniteIntegerSet y = randomBST(20, 5);
+            if (x.equal(y) && (x.subset(y) && y.subset(x)))
+                System.out.println("The two random sets are equal and are also subsets of each other. PASS");
+            else if (x.equal(y))
+                System.out.println("The two random sets are equal but are not subsets of each other. FAIL");
+            else if (x.subset(y) && y.subset(x))
+                System.out.println("The two random sets are subsets of each other but are not equal. FAIL");
+            else
+                System.out.println("The two random sets are not equal or subsets of each other. PASS");
+        }
+    }
+
+    //Iff set x is a subset of set y, the union of x and y is equal to y
+    public static void setSubsetUnion(int repeat) {
+        for (int i = 0; i < repeat; i++) {
+            FiniteIntegerSet x = randomBST(5, 20);
+            FiniteIntegerSet y = randomBST(5, 20);
+            if ((x.subset(y) && y.equal(x.union(y))) || (y.subset(x) && x.equal(y.union(x))))
+                System.out.println("One random set is a subset of the other and their union is equal to that other set. PASS");
+            else if (x.subset(y) || y.subset(x))
+                System.out.println("One random set is a subset of the other but their union is not equal to that other set. FAIL");
+            else if (y.equal(x.union(y)) || x.equal(y.union(x)))
+                System.out.println("The union of the two random sets is equal to one of them but the other is not a subset to that one. FAIL");
+            else
+                System.out.println("Neither of the two sets is a subset of the other or equal to their union. PASS");
+        }
+    }
+
+    private static FiniteIntegerSet randomBST(int maxsize, int maxelement) {
+        Random rng = new Random();
+        int size = rng.nextInt() % (maxsize + 1);
+        FiniteIntegerSet set = Tree.empty();
+        for (int i = 0; i < size; i++) set = set.add(rng.nextInt() % (maxelement + 1));
+        return set;
+    }
+
+
+
     public static void main(String[] args) {
         emptyCardTest(5);
         nonemptyCardTest(5);
         isEmptyHuhTest1(5);
         isEmptyHuhTest2(5);
-        addMemberTest(5);
+        addTest(5);
+        subsetUnion1(5);
+        subsetUnion2(5);
+        equalityBySubset(10);
+        setSubsetUnion(10);
     }
 
 }
