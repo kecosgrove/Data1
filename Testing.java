@@ -58,9 +58,9 @@ public class Testing {
     }
 
     //Adding an element to a set causes that element to be a member of that set.
-    public static void addTest(int repeat) {
+    public static void addMemberTest(int repeat) {
         Random rng = new Random();
-        FiniteIntegerSet set = Tree.empty();
+        FiniteIntegerSet set = randomBST(100, 100);
         for (int i = 0; i < repeat; i++) {
             int randomInt = rng.nextInt();
             set = set.add(randomInt);
@@ -118,13 +118,39 @@ public class Testing {
             FiniteIntegerSet x = randomBST(5, 20);
             FiniteIntegerSet y = randomBST(5, 20);
             if ((x.subset(y) && y.equal(x.union(y))) || (y.subset(x) && x.equal(y.union(x))))
-                System.out.println("One random set is a subset of the other and their union is equal to that other set. PASS");
+                System.out.println("One random set is a subset of the other and their union is equal to the other set. PASS");
             else if (x.subset(y) || y.subset(x))
-                System.out.println("One random set is a subset of the other but their union is not equal to that other set. FAIL");
+                System.out.println("One random set is a subset of the other but their union is not equal to the other set. FAIL");
             else if (y.equal(x.union(y)) || x.equal(y.union(x)))
                 System.out.println("The union of the two random sets is equal to one of them but the other is not a subset to that one. FAIL");
             else
                 System.out.println("Neither of the two sets is a subset of the other or equal to their union. PASS");
+        }
+    }
+
+    //the union of the intersection of x and y, the difference of x and y and the difference of y and x equals the union of x and y
+    public static void componentUnion(int repeat) {
+        for (int i = 0; i < repeat; i++) {
+            FiniteIntegerSet x = randomBST(20, 20);
+            FiniteIntegerSet y = randomBST(20, 20);
+            if (x.diff(y).union(y.diff(x)).union(x.inter(y)).equal(x.union(y)))
+                System.out.println("The union of the intersection of x and y, x-y, and y-x equals the union of x and y. PASS");
+            else
+                System.out.println("The union of the intersection of x and y, y-y, and y-x does not equal the union of x and y. FAIL");
+        }
+    }
+
+    //If x is a subset of y, then the cardinality of x must be less than or equal to the cardinality of y
+    public static void subsetCardinality(int repeat) {
+        for (int i = 0; i < repeat; i++) {
+            FiniteIntegerSet x = randomBST(10, 10);
+            FiniteIntegerSet y = randomBST(10, 10);
+            if ((x.subset(y) && (x.cardinality() <= y.cardinality())) || (y.subset(x) && (y.cardinality() <= x.cardinality())))
+                System.out.println("A random set is a subset of the other random set and the cardinality of the first set is not greater than the cardinality of the second set. PASS");
+            else if (x.subset(y) || y.subset(x))
+                System.out.println("A random set is a subset of the other random set but has a greater cardinality than the second set. FAIL");
+            else
+                System.out.println("The random pair of sets are not subsets. PASS");
         }
     }
 
@@ -143,11 +169,13 @@ public class Testing {
         nonemptyCardTest(5);
         isEmptyHuhTest1(5);
         isEmptyHuhTest2(5);
-        addTest(5);
+        addMemberTest(5);
         subsetUnion1(5);
         subsetUnion2(5);
         equalityBySubset(10);
         setSubsetUnion(10);
+        componentUnion(5);
+        subsetCardinality(5);
     }
 
 }
